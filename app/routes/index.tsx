@@ -1,6 +1,7 @@
 import * as fs from 'node:fs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/start'
+import Counter from '../Counter'
 
 const filePath = 'count.txt'
 
@@ -24,11 +25,11 @@ const updateCount = createServerFn({ method: 'POST' })
   })
 
 export const Route = createFileRoute('/')({
-  component: Counter,
+  component: ServerCounter,
   loader: async () => await getCount(),
 })
 
-function Counter() {
+function ServerCounter() {
   const router = useRouter()
   const state = Route.useLoaderData()
 
@@ -39,8 +40,6 @@ function Counter() {
   }
 
   return (
-    <button type="button" onClick={handleClick}>
-      Add 1 to {state}?
-    </button>
+    <Counter handleClick={handleClick} currentCount={state} />
   )
 }
