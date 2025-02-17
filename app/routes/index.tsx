@@ -32,15 +32,14 @@ function Home() {
   const router = useRouter()
   const state = Route.useLoaderData()
 
+  const handleClick = () => {
+    updateCount({ data: 1 }).then(() => {
+      router.invalidate()
+    })
+  }
+
   return (
-    <button
-      type="button"
-      onClick={() => {
-        updateCount({ data: 1 }).then(() => {
-          router.invalidate()
-        })
-      }}
-    >
+    <button type="button" onClick={handleClick}>
       Add 1 to {state}?
     </button>
   )
