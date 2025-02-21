@@ -8,8 +8,10 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
+      "@app/*": ["app/*"],
+      "@components/*": ["app/components/*"],
       "@pages/*": ["app/pages/*"],
-      "@components/*": ["app/components/*"]
+      "@routes/*": ["app/routes/*"]
     }
   },
 }

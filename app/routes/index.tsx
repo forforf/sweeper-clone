@@ -1,5 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Game } from '@pages/game'
+import {createFileRoute, Link} from '@tanstack/react-router'
+import { Route as countRoute } from '@routes/count'
+import { Route as gameRoute } from '@routes/game'
+
 
 export const Route = createFileRoute('/')({
   component: RouteComponent
@@ -7,6 +9,13 @@ export const Route = createFileRoute('/')({
 
 function RouteComponent() {
   return (
-    <Game />
+    <ul>
+      <li>
+        <Link to={gameRoute.to}>Game</Link>
+      </li>
+      <li>
+        <Link to={countRoute.to}>Count</Link>
+      </li>
+    </ul>
   )
 }
