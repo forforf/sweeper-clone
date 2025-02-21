@@ -1,0 +1,23 @@
+.Board {
+  $base-color: #cad0d0;
+
+  background: $base-color;
+  .outer-border {
+    padding: 2px;
+    border-color: $base-color;
+    border-width: 2px;
+    border-style: outset;
+  }
+  .middle-border {
+    padding: 2px;
+    border-color: $base-color;
+    border-width: 2px;
+    border-style: solid;
+  }
+  .inner-border {
+    padding: 2px;
+    border-color: $base-color;
+    border-width: 2px;
+    border-style: inset;
+  }
+}
