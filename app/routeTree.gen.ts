@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as GameImport } from './routes/game'
 import { Route as CountImport } from './routes/count'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const GameRoute = GameImport.update({
+  id: '/game',
+  path: '/game',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const CountRoute = CountImport.update({
   id: '/count',
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CountImport
       parentRoute: typeof rootRoute
     }
+    '/game': {
+      id: '/game'
+      path: '/game'
+      fullPath: '/game'
+      preLoaderRoute: typeof GameImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/count': typeof CountRoute
+  '/game': typeof GameRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/count': typeof CountRoute
+  '/game': typeof GameRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/count': typeof CountRoute
+  '/game': typeof GameRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/count'
+  fullPaths: '/' | '/count' | '/game'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/count'
-  id: '__root__' | '/' | '/count'
+  to: '/' | '/count' | '/game'
+  id: '__root__' | '/' | '/count' | '/game'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CountRoute: typeof CountRoute
+  GameRoute: typeof GameRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CountRoute: CountRoute,
+  GameRoute: GameRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +116,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/count"
+        "/count",
+        "/game"
       ]
     },
     "/": {
@@ -105,6 +125,9 @@ export const routeTree = rootRoute
     },
     "/count": {
       "filePath": "count.tsx"
+    },
+    "/game": {
+      "filePath": "game.tsx"
     }
   }
 }
