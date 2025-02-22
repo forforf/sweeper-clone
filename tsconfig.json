@@ -11,7 +11,8 @@
       "@app/*": ["app/*"],
       "@components/*": ["app/components/*"],
       "@pages/*": ["app/pages/*"],
-      "@routes/*": ["app/routes/*"]
+      "@routes/*": ["app/routes/*"],
+      "@services/*": ["app/services/*"]
     }
   },
 }

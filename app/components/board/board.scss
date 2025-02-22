@@ -1,5 +1,6 @@
 .Board {
   $base-color: #cad0d0;
+  $base-shadow: #8a9090;
 
   background: $base-color;
   .outer-border {
@@ -19,5 +20,18 @@
     border-color: $base-color;
     border-width: 2px;
     border-style: inset;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin: -2px;
+
+    td {
+      padding: 0;
+      border: 1px solid $base-shadow;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+    }
   }
 }

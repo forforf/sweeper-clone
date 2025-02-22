@@ -1,12 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Game } from '@pages/game'
+import {createServerFn} from '@tanstack/start'
+import {type GameGridValues} from '@app/services/game'
+
+function initGame(): GameGridValues {
+  return [['x']]
+}
+
+const getGame = createServerFn({
+  method: 'GET',
+}).handler(() => {
+  return initGame()
+})
 
 export const Route = createFileRoute('/game')({
-  component: RouteComponent
+  component: RouteComponent,
+  loader: () => getGame()
 })
 
 function RouteComponent() {
+  const serverState = Route.useLoaderData()
   return (
-    <Game />
+    <Game serverState={serverState}/>
   )
 }
