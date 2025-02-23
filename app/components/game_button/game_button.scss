@@ -1,0 +1,15 @@
+.GameButton {
+  // TODO: Come up with a theming solution
+  $base-color: #cad0d0;
+  $base-shadow: #8a9090;
+
+  background-color: $base-color;
+  border: 2px outset;
+  border-radius: 0;
+  height: 100%;
+  width: 100%;
+
+  &:active{
+    border: 2px inset;
+  }
+}
