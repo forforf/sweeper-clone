@@ -12,7 +12,7 @@ interface GameProps {
 export function Game ({serverState}: GameProps) {
   const gameCells: GameGridValues = [
     [null, '1', 'x'],
-    [null, '2', '2'],
+    [ '?', '2', '2'],
     [ '?', '1', 'x']
   ]
   // const [cells, setCells] = useState<Array<Cell>>()

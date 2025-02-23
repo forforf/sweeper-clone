@@ -22,16 +22,21 @@
     border-style: inset;
   }
 
-  table {
-    border-collapse: collapse;
-    margin: -2px;
-
-    td {
-      padding: 0;
-      border: 1px solid $base-shadow;
-      width: 20px;
-      height: 20px;
-      text-align: center;
-    }
+  .map {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
+
+  //table {
+  //  border-collapse: collapse;
+  //  margin: -2px;
+  //
+  //  td {
+  //    padding: 0;
+  //    border: 1px solid $base-shadow;
+  //    width: 20px;
+  //    height: 20px;
+  //    text-align: center;
+  //  }
+  //}
 }

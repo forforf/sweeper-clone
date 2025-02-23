@@ -9,10 +9,11 @@ interface BoardProps {
 }
 
 interface CellProps {
+  id: string
   children: GameCellValue
 }
 
-function Cell({children}: CellProps) {
+function Cell({id, children}: CellProps) {
   let gridUi: React.ReactNode = children
   if (children === '?') {
     gridUi =  <GameButton />
@@ -23,28 +24,36 @@ function Cell({children}: CellProps) {
   }
 
   return (
-    <td>{gridUi}</td>
+    <div id={id}>{gridUi}</div>
   )
 }
 
-function Row({rowCells}) {
-  return (
-    <tr>
-      {
-        rowCells.map((cell, i) => <Cell key={i}>{cell}</Cell>)
-      }
-    </tr>
-  )
-}
+// function Row({rowCells}) {
+//   return (
+//     <tr>
+//       {
+//         rowCells.map((cell, i) => <Cell key={i}>{cell}</Cell>)
+//       }
+//     </tr>
+//   )
+// }
 
 export function Board ({gridCells}: BoardProps) {
-  const renderTable = () => {
+
+  const renderCells = (gridCells: GameGridValues) => {
+    return gridCells.map((rowCells, i) => {
+      return rowCells.map((cell, j) => {
+        const key = `r-${i}-c-${j}`
+        return <Cell id={key} key={key}>{gridCells[i][j]}</Cell>
+      })
+    })
+  }
+
+  const renderMap = () => {
     return (
-      <table>
-        <tbody>
-          {gridCells.map((rowCells, i) => <Row key={i} rowCells={rowCells} />)}
-        </tbody>
-      </table>
+      <div className="map">
+        { renderCells(gridCells) }
+      </div>
     )
   }
 
@@ -53,7 +62,7 @@ export function Board ({gridCells}: BoardProps) {
       <div className="outer-border">
         <div className="middle-border">
           <div className="inner-border">
-            { renderTable() }
+            { renderMap() }
           </div>
         </div>
       </div>
