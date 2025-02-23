@@ -1,18 +1,30 @@
 import React from 'react'
 import './board.scss'
-import {GameGridValues} from '@services/game'
+import {GameCellValue, GameGridValues} from '@services/game'
 
 interface BoardProps {
   gridCells: GameGridValues
 }
 
 interface CellProps {
-  children: GameGridValues
+  children: GameCellValue
 }
 
-function Cell({children}: CellProps) {
+function GameButton() {
   return (
-    <td>{children}</td>
+    <button></button>
+  )
+}
+
+
+function Cell({children}: CellProps) {
+  let gridUi: React.ReactNode = children
+  if (children === '?') {
+   gridUi =  <GameButton />
+  }
+
+  return (
+    <td>{gridUi}</td>
   )
 }
 

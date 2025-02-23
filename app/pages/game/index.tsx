@@ -13,7 +13,7 @@ export function Game ({serverState}: GameProps) {
   const gameCells: GameGridValues = [
     [null, '1', 'x'],
     [null, '2', '2'],
-    [null, '1', 'x']
+    [ '?', '1', 'x']
   ]
   // const [cells, setCells] = useState<Array<Cell>>()
   console.log('Server state', serverState)
