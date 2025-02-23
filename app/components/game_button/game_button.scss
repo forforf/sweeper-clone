@@ -13,4 +13,10 @@
   &:active{
     border: 2px inset;
   }
+
+  // For touch based devices we use TS to set the state
+  &.active {
+    background-color: $base-shadow;
+    border: 2px inset;
+  }
 }
