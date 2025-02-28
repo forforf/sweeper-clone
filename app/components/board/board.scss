@@ -2,6 +2,12 @@
   $base-color: #cad0d0;
   $base-shadow: #8a9090;
 
+  // Make Board Unselectable (to fix iOS trying to select on long press)
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   background: $base-color;
   .outer-border {
     padding: 2px;
