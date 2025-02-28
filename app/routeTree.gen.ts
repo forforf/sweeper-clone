@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as GridImport } from './routes/grid'
 import { Route as GameImport } from './routes/game'
 import { Route as CountImport } from './routes/count'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const GridRoute = GridImport.update({
+  id: '/grid',
+  path: '/grid',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const GameRoute = GameImport.update({
   id: '/game',
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GameImport
       parentRoute: typeof rootRoute
     }
+    '/grid': {
+      id: '/grid'
+      path: '/grid'
+      fullPath: '/grid'
+      preLoaderRoute: typeof GridImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +83,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/count': typeof CountRoute
   '/game': typeof GameRoute
+  '/grid': typeof GridRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/count': typeof CountRoute
   '/game': typeof GameRoute
+  '/grid': typeof GridRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +98,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/count': typeof CountRoute
   '/game': typeof GameRoute
+  '/grid': typeof GridRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/count' | '/game'
+  fullPaths: '/' | '/count' | '/game' | '/grid'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/count' | '/game'
-  id: '__root__' | '/' | '/count' | '/game'
+  to: '/' | '/count' | '/game' | '/grid'
+  id: '__root__' | '/' | '/count' | '/game' | '/grid'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +114,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CountRoute: typeof CountRoute
   GameRoute: typeof GameRoute
+  GridRoute: typeof GridRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CountRoute: CountRoute,
   GameRoute: GameRoute,
+  GridRoute: GridRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +136,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/count",
-        "/game"
+        "/game",
+        "/grid"
       ]
     },
     "/": {
@@ -128,6 +148,9 @@ export const routeTree = rootRoute
     },
     "/game": {
       "filePath": "game.tsx"
+    },
+    "/grid": {
+      "filePath": "grid.tsx"
     }
   }
 }
