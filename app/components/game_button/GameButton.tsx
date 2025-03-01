@@ -9,20 +9,24 @@ const ButtonState = {
 
 type ButtonStateType = typeof ButtonState[keyof typeof ButtonState]
 
-export function GameButton() {
+interface GameButtonProps {
+  cellId: string;
+}
+
+export function GameButton({cellId}: GameButtonProps) {
   const [buttonState, setButtonState] = useState<ButtonStateType>(ButtonState.ready)
   const {handlePointerDown, handlePointerUp} = useContext(GameFunctionsContext)
 
   const handlePress = (e) => {
-    console.log('Button was Pressed', e)
+    console.log('Button was Pressed', cellId)
     setButtonState(ButtonState.active)
-    if (handlePointerDown != null) { handlePointerDown(e) }
+    if (handlePointerDown != null) { handlePointerDown(cellId) }
   }
 
   const handleRelease = (e) => {
-    console.log('Button was Released', e)
+    console.log('Button was Released', cellId)
     setButtonState(ButtonState.ready)
-    if (handlePointerUp != null)  { handlePointerUp(e) }
+    if (handlePointerUp != null)  { handlePointerUp(cellId) }
   }
   //Maybe there's a more declarative way?
   const buttonHandlerProps = {}

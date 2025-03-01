@@ -1,8 +1,8 @@
 import {createContext, useContext} from 'react'
 
 export interface GameFunctions {
-  handlePointerDown?: (event: TouchEvent) => void
-  handlePointerUp?: (event: TouchEvent) => void
+  handlePointerDown?: (cellId: string) => void
+  handlePointerUp?: (cellId: string) => void
 }
 
 export const GameFunctionsContext = createContext<GameFunctions>({})

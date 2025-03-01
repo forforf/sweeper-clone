@@ -32,8 +32,8 @@ export function Game ({serverState}: GameProps) {
   const pointerPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const longPressTimeout = 1500; //milliseconds
 
-  const handlePointerDown = (): void=> {
-    console.log(pointerState, 'Game -> button pressed')
+  const handlePointerDown = (cellId: string): void=> {
+    console.log(pointerState, 'Game -> button pressed', cellId)
     setPointerState(PointerState.pressed)
     pointerPressTimer.current = setTimeout(() => {
       setPointerState(PointerState.longPressed)
@@ -41,14 +41,14 @@ export function Game ({serverState}: GameProps) {
     }, longPressTimeout)
   }
 
-  const cancelPointerDown = (): void => {
-    console.log(pointerState, 'Game -> button released or cancelled')
+  const cancelPointerDown = (cellId: string): void => {
+    console.log(pointerState, 'Game -> button released or cancelled', cellId)
     clearTimeout(pointerPressTimer.current ?? 0)
     setPointerState(PointerState.released)
   }
 
-  const handlePointerUp = (): void => {
-    cancelPointerDown()
+  const handlePointerUp = (cellId: string): void => {
+    cancelPointerDown(cellId)
   }
 
   const gameFunctions: GameFunctions = {handlePointerDown, handlePointerUp}

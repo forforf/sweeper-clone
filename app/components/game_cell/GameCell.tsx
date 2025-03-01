@@ -12,7 +12,7 @@ interface GameCellProps {
 export function GameCell({id, children}: GameCellProps) {
   let gridUi: React.ReactNode = children
   if (children === '?') {
-    gridUi =  <GameButton />
+    gridUi =  <GameButton cellId={id}/>
   }
 
   if (children === 'x') {

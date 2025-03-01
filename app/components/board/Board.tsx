@@ -11,8 +11,8 @@ export function Board ({gridCells}: BoardProps) {
 
   const renderCells = (gridCells: GameGridValues) => {
     return gridCells.map((rowCells, i) => {
-      return rowCells.map((cell, j) => {
-        const key = `r-${i}-c-${j}`
+      return rowCells.map((_, j) => {
+        const key = `c${j}-r${i}`
         return <GameCell id={key} key={key}>{gridCells[i][j]}</GameCell>
       })
     })
