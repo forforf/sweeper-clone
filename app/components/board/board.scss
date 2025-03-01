@@ -1,4 +1,5 @@
 .Board {
+  --cell-size: var(--page-game--cell-size);
   $base-color: #cad0d0;
   $base-shadow: #8a9090;
 
@@ -30,19 +31,8 @@
 
   .map {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template: repeat(3, minmax(0, var(--cell-size))) / repeat(3, minmax(0,var(--cell-size)));
+    min-height: 0;
+    min-width: 0;
   }
-
-  //table {
-  //  border-collapse: collapse;
-  //  margin: -2px;
-  //
-  //  td {
-  //    padding: 0;
-  //    border: 1px solid $base-shadow;
-  //    width: 20px;
-  //    height: 20px;
-  //    text-align: center;
-  //  }
-  //}
 }
