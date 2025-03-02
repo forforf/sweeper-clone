@@ -17,13 +17,13 @@ export function GameButton({cellId}: GameButtonProps) {
   const [buttonState, setButtonState] = useState<ButtonStateType>(ButtonState.ready)
   const {handlePointerDown, handlePointerUp} = useGameFunctions()
 
-  const handlePress = (e) => {
+  const handlePress = (_) => {
     console.log('Button was Pressed', cellId)
     setButtonState(ButtonState.active)
     if (handlePointerDown != null) { handlePointerDown(cellId) }
   }
 
-  const handleRelease = (e) => {
+  const handleRelease = (_) => {
     console.log('Button was Released', cellId)
     setButtonState(ButtonState.ready)
     if (handlePointerUp != null)  { handlePointerUp(cellId) }
