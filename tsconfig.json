@@ -14,6 +14,7 @@
       "@pages/*": ["app/pages/*"],
       "@routes/*": ["app/routes/*"],
       "@services/*": ["app/services/*"]
-    }
+    },
+    "outDir": "./build"
   },
 }
