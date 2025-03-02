@@ -33,7 +33,7 @@
     border-style: inset;
   }
 
-  .map {
+  .game-grid {
     display: grid;
     grid-template: var(--grid-col-style)/ var(--grid-row-style);
     min-height: 0;

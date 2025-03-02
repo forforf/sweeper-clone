@@ -20,7 +20,7 @@ export function Board ({gridCells}: BoardProps) {
 
   const renderGrid = () => {
     return (
-      <div className="map">
+      <div className="game-grid">
         { renderCells(gridCells) }
       </div>
     )
