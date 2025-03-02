@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useGameFunctions} from '@pages/game'
+import {useGameFunctions} from '@app/game'
 import './game_button.scss'
 
 const ButtonState = {

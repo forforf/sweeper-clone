@@ -1,6 +1,6 @@
-import React, {useRef, useState} from 'react'
-import {GameGridValues} from '@services/game'
-import {GameCell} from '@components/game_cell'
+import React from 'react'
+import {GameGridValues} from '@game/game_cell_value'
+import {GameCell} from 'app/game/game_cell'
 import './board.scss'
 
 interface BoardProps {

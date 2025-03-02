@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react'
-import {GameCellValue, GameGridValues} from '@services/game'
-import {Board} from '@components/board'
+import {GameCellValue, GameGridValues} from './game_cell_value'
+import {Board} from 'app/game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdIdxs} from './cellid_parser'
 import './game.scss'

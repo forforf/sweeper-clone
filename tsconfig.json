@@ -10,6 +10,7 @@
     "paths": {
       "@app/*": ["app/*"],
       "@components/*": ["app/components/*"],
+      "@game/*": ["app/game/*"],
       "@pages/*": ["app/pages/*"],
       "@routes/*": ["app/routes/*"],
       "@services/*": ["app/services/*"]
