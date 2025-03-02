@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react'
-import {Board} from 'app/game/board'
+import {Board} from '@game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdIdxs} from './cellid_parser'
 import type {GameCellValue, GameGridValues} from '@game/GameGrid'

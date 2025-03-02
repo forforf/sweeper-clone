@@ -1,6 +1,6 @@
 import React from 'react'
 import {GameButton} from '@game/game_button'
-import {Mine} from 'app/game/mine'
+import {Mine} from '@game/mine'
 import type {GameCellValue} from '@game/GameGrid'
 import './game_cell.scss'
 
