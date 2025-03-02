@@ -39,6 +39,8 @@ interface GameProps {
   serverState: GameGridValues
 }
 
+// TODO: Need to wire up server
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function Game ({serverState}: GameProps) {
 
   const [gameCells, setGameCells] = useState<GameGridValues>(InitialGameCells)
@@ -49,6 +51,8 @@ export function Game ({serverState}: GameProps) {
   }
 
   // We will assume there is only a single mouse/pointer (that is multiple buttons can't be long pressed)
+  // TODO: Either use pointerState or remove it (and adjust the comment above to match)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [pointerState, setPointerState] = useState<PointerStateType>(PointerState.released)
   const pointerPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const longPressTimeout = 500; //milliseconds
