@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react'
 import {Board} from '@game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
-import {cellIdIdxs} from './cellid_parser'
+import {cellIdToCoord} from './cellid_parser'
 import type {GameCellValue, GameGridValues} from '@game/GameGrid'
 import './game.scss'
 
@@ -65,7 +65,7 @@ export function Game ({serverState}: GameProps) {
     setPointerState(PointerState.pressed)
     pointerPressTimer.current = setTimeout(() => {
       setPointerState(PointerState.longPressed)
-      const gameCellIdxs = cellIdIdxs(cellId)
+      const gameCellIdxs = cellIdToCoord(cellId)
       const solutionGameCellValue = getSolutionCellValue(gameCellIdxs)
       setGameCell(solutionGameCellValue, gameCellIdxs)
       console.log(pointerState, 'Game -> button longPressed')
@@ -73,8 +73,7 @@ export function Game ({serverState}: GameProps) {
     }, longPressTimeout)
   }
 
-  const cancelPointerDown = (cellId: string): void => {
-    console.log(pointerState, 'Game -> button released or cancelled', getGameCellValue(cellIdIdxs(cellId)))
+  const cancelPointerDown = (_: string): void => {
     clearTimeout(pointerPressTimer.current ?? 0)
     setPointerState(PointerState.released)
   }
