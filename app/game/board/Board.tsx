@@ -18,7 +18,7 @@ export function Board ({gridCells}: BoardProps) {
     })
   }
 
-  const renderMap = () => {
+  const renderGrid = () => {
     return (
       <div className="map">
         { renderCells(gridCells) }
@@ -31,7 +31,7 @@ export function Board ({gridCells}: BoardProps) {
       <div className="outer-border">
         <div className="middle-border">
           <div className="inner-border">
-            { renderMap() }
+            { renderGrid() }
           </div>
         </div>
       </div>
