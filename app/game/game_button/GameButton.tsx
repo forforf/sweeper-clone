@@ -1,13 +1,7 @@
 import React, {useState} from 'react'
 import {useGameFunctions} from '@app/game'
+import {ButtonState, type ButtonStateType} from './ButtonState'
 import './game_button.scss'
-
-const ButtonState = {
-  active: 'active',
-  ready: 'ready'
-} as const
-
-type ButtonStateType = typeof ButtonState[keyof typeof ButtonState]
 
 interface GameButtonProps {
   cellId: string;
