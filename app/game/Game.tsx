@@ -13,11 +13,7 @@ const PointerState = {
 
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
-const InitialGameCells: GameGridValues = [
-  [ '?', '?', '?'],
-  [ '?', '?', '?'],
-  [ '?', '?', '?']
-] as const
+const HiddenCell: GameCellValue = '?'
 
 function cloneGame(origGameCells: GameGridValues): GameGridValues {
   return origGameCells.map(row => [...row])
@@ -30,7 +26,8 @@ interface GameProps {
 }
 
 export function Game ({gameGridSolution}: GameProps) {
-  const [gameCells, setGameCells] = useState<GameGridValues>(InitialGameCells)
+  const initialGameCells = gameGridSolution.map(row => row.map(_ => HiddenCell))
+  const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
   const setGameCell = (value: GameCellValue, cellIdxs: GameCellIdx): void => {
     const newGameCells = cloneGame(gameCells)
     newGameCells[cellIdxs[0]][cellIdxs[1]] = value
