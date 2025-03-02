@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react'
-import {GameFunctionsContext} from '@pages/game'
+import React, {useState} from 'react'
+import {useGameFunctions} from '@pages/game'
 import './game_button.scss'
 
 const ButtonState = {
@@ -15,7 +15,7 @@ interface GameButtonProps {
 
 export function GameButton({cellId}: GameButtonProps) {
   const [buttonState, setButtonState] = useState<ButtonStateType>(ButtonState.ready)
-  const {handlePointerDown, handlePointerUp} = useContext(GameFunctionsContext)
+  const {handlePointerDown, handlePointerUp} = useGameFunctions()
 
   const handlePress = (e) => {
     console.log('Button was Pressed', cellId)

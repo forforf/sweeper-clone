@@ -4,15 +4,13 @@ import {Board} from '@components/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import './game.scss'
 
-export { GameFunctionsContext }
-
 const PointerState = {
   pressed: 'pressed',
   longPressed: 'longPressed',
   released: 'released'
 } as const
 
-type PointerStateType = typeof PointerState[keyof typeof PointerState]
+export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
 interface GameProps {
   serverState: GameGridValues

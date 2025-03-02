@@ -1,2 +1,2 @@
 export {Game} from './Game'
-export {GameFunctionsContext} from './GameContext'
+export {GameFunctionsContext, useGameFunctions} from './GameContext'
