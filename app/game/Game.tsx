@@ -1,8 +1,8 @@
 import React, {useRef, useState} from 'react'
-import {GameCellValue, GameGridValues} from './game_cell_value'
 import {Board} from 'app/game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdIdxs} from './cellid_parser'
+import type {GameCellValue, GameGridValues} from '@game/GameGrid'
 import './game.scss'
 
 const PointerState = {

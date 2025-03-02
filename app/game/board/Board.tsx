@@ -1,6 +1,6 @@
 import React from 'react'
-import {GameGridValues} from '@game/game_cell_value'
 import {GameCell} from 'app/game/game_cell'
+import type {GameGridValues} from '@game/GameGrid'
 import './board.scss'
 
 interface BoardProps {

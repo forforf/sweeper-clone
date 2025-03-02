@@ -1,7 +1,7 @@
 import React from 'react'
-import {GameCellValue} from '@game/game_cell_value'
 import {GameButton} from '@game/game_button'
 import {Mine} from 'app/game/mine'
+import type {GameCellValue} from '@game/GameGrid'
 import './game_cell.scss'
 
 interface GameCellProps {
