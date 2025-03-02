@@ -1,5 +1,9 @@
 .Board {
   --cell-size: var(--msgame--cell-size);
+  --cols: var(--msgame--cols);
+  --rows: var(--msgame--rows);
+  --grid-col-style: repeat(var(--cols), minmax(0, var(--cell-size)));
+  --grid-row-style: repeat(var(--rows), minmax(0, var(--cell-size)));
   $base-color: #cad0d0;
   $base-shadow: #8a9090;
 
@@ -31,7 +35,7 @@
 
   .map {
     display: grid;
-    grid-template: repeat(3, minmax(0, var(--cell-size))) / repeat(3, minmax(0,var(--cell-size)));
+    grid-template: var(--grid-col-style)/ var(--grid-row-style);
     min-height: 0;
     min-width: 0;
   }

@@ -1,5 +1,7 @@
 .Game {
   --msgame--cell-size: 16px;
+  --msgame--rows: 3;
+  --msgame--cols: 3;
 
   display: flex;
   flex-direction: column;
