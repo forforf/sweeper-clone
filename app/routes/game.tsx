@@ -4,7 +4,11 @@ import {createServerFn} from '@tanstack/start'
 import {type GameGridValues} from '@app/game/GameGrid'
 
 function initGame(): GameGridValues {
-  return [['x']]
+  return [
+    [ 'x', '1',null],
+    [ '2', '2',null],
+    [ 'x', '1',null]
+  ]
 }
 
 const getGame = createServerFn({
@@ -19,8 +23,8 @@ export const Route = createFileRoute('/game')({
 })
 
 function RouteComponent() {
-  const serverState = Route.useLoaderData()
+  const gameGridSolution = Route.useLoaderData()
   return (
-    <Game serverState={serverState}/>
+    <Game gameGridSolution={gameGridSolution}/>
   )
 }

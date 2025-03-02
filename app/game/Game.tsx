@@ -13,16 +13,6 @@ const PointerState = {
 
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
-const SolutionGameCells: GameGridValues = [
-  [null, '1', 'x'],
-  [null, '2', '2'],
-  [null, '1', 'x']
-] as const
-
-function getSolutionCellValue(cellIdxs: GameCellIdx): GameCellValue {
-  return SolutionGameCells[cellIdxs[0]][cellIdxs[1]]
-}
-
 const InitialGameCells: GameGridValues = [
   [ '?', '?', '?'],
   [ '?', '?', '?'],
@@ -36,18 +26,19 @@ function cloneGame(origGameCells: GameGridValues): GameGridValues {
 type GameCellIdx = [number, number]
 
 interface GameProps {
-  serverState: GameGridValues
+  gameGridSolution: GameGridValues
 }
 
-// TODO: Need to wire up server
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function Game ({serverState}: GameProps) {
-
+export function Game ({gameGridSolution}: GameProps) {
   const [gameCells, setGameCells] = useState<GameGridValues>(InitialGameCells)
   const setGameCell = (value: GameCellValue, cellIdxs: GameCellIdx): void => {
     const newGameCells = cloneGame(gameCells)
     newGameCells[cellIdxs[0]][cellIdxs[1]] = value
     setGameCells(newGameCells)
+  }
+
+  const getSolutionCellValue = (cellIdxs: GameCellIdx): GameCellValue => {
+    return gameGridSolution[cellIdxs[0]][cellIdxs[1]]
   }
 
   // We will assume there is only a single mouse/pointer (that is multiple buttons can't be long pressed)
