@@ -1,13 +1,15 @@
 import {createFileRoute} from '@tanstack/react-router'
-import {Game} from '@app/game'
+import {GameInit} from '@app/game'
 import {createServerFn} from '@tanstack/start'
 import {type GameGridValues} from '@app/game/GameGrid'
 
 function initGame(): GameGridValues {
   return [
-    [ 'x', '1',null],
-    [ '2', '2',null],
-    [ 'x', '1',null]
+    [ '1', 'x', '1',null,null],
+    [ '2', '2', '3', '1', '1'],
+    [ '1', 'x', '2', 'x', '1'],
+    [ '1', '1', '2', '1', '1'],
+    [null,null,null,null,null],
   ]
 }
 
@@ -25,6 +27,6 @@ export const Route = createFileRoute('/game')({
 function RouteComponent() {
   const gameGridSolution = Route.useLoaderData()
   return (
-    <Game gameGridSolution={gameGridSolution}/>
+    <GameInit gameGridSolution={gameGridSolution}/>
   )
 }
