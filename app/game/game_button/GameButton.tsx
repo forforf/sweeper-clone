@@ -12,7 +12,6 @@ export function GameButton({cellId}: GameButtonProps) {
   const {handlePointerDown, handlePointerUp} = useGameFunctions()
 
   const handlePress = (_) => {
-    console.log('Button was Pressed', cellId)
     setButtonState(ButtonState.active)
     if (handlePointerDown != null) { handlePointerDown(cellId) }
   }
