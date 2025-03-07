@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react'
 import {Board} from '@game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdToCoord} from './cellid_parser'
-import type {GameCellValue, GameGridValues} from '@game/GameGrid'
+import {FlaggedButton, HiddenCell, type GameCellValue, type GameGridValues} from '@game/GameGrid'
 import './game.scss'
 
 const PointerState = {
@@ -15,8 +15,7 @@ type GameCellCoord = [number, number]
 
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
-const HiddenCell: GameCellValue = '?'
-const FlaggedButton: GameCellValue = 'F'
+
 
 // TODO: Consider creating a GameGrid class, that can handle cloning, setting and getting game cells
 function cloneGame(origGameCells: GameGridValues): GameGridValues {
@@ -28,7 +27,7 @@ interface GameProps {
 }
 
 export function Game ({gameGridSolution}: GameProps) {
-  const initialGameCells = gameGridSolution.map(row => row.map(_ => HiddenCell))
+  const initialGameCells: GameGridValues = gameGridSolution.map(row => row.map(_ => HiddenCell))
   const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
 
   const getCurrentGameCellValue = (gameCellCoord: GameCellCoord): GameCellValue => {
