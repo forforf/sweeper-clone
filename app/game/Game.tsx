@@ -11,15 +11,17 @@ const PointerState = {
   released: 'released'
 } as const
 
+type GameCellCoord = [number, number]
+
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
 const HiddenCell: GameCellValue = '?'
+const FlaggedButton: GameCellValue = 'F'
 
+// TODO: Consider creating a GameGrid class, that can handle cloning, setting and getting game cells
 function cloneGame(origGameCells: GameGridValues): GameGridValues {
   return origGameCells.map(row => [...row])
 }
-
-type GameCellCoord = [number, number]
 
 interface GameProps {
   gameGridSolution: GameGridValues
@@ -28,10 +30,27 @@ interface GameProps {
 export function Game ({gameGridSolution}: GameProps) {
   const initialGameCells = gameGridSolution.map(row => row.map(_ => HiddenCell))
   const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
-  const setGameCell = (value: GameCellValue, cellIdxs: GameCellCoord): void => {
+
+  const getCurrentGameCellValue = (gameCellCoord: GameCellCoord): GameCellValue => {
+    return gameCells[gameCellCoord[0]][gameCellCoord[1]]
+  }
+
+  const setGameCell = (value: GameCellValue, gameCellCoord: GameCellCoord): void => {
     const newGameCells = cloneGame(gameCells)
-    newGameCells[cellIdxs[0]][cellIdxs[1]] = value
+    newGameCells[gameCellCoord[0]][gameCellCoord[1]] = value
     setGameCells(newGameCells)
+  }
+
+
+  const toggleFlag = (gameCellCoord: GameCellCoord): GameCellValue => {
+    const cell = getCurrentGameCellValue(gameCellCoord)
+    if ( cell === HiddenCell) {
+      return FlaggedButton
+    }
+    if ( cell === FlaggedButton) {
+      return HiddenCell
+    }
+    return cell
   }
 
   const getSolutionCellValue = (cellIdxs: GameCellCoord): GameCellValue => {
@@ -55,6 +74,9 @@ export function Game ({gameGridSolution}: GameProps) {
 
   const handlePointerDown = (cellId: string): void=> {
     const gameCellCoord = cellIdToCoord(cellId)
+    // TODO: This will toggle the button on press, but do we need to worry about canceling it?
+    //  Since long press clears the button it should be ok?
+    setGameCell(toggleFlag(gameCellCoord), gameCellCoord)
     setPointerState(PointerState.pressed)
     pointerPressTimer.current = setTimeout(longPressTimeoutFn(gameCellCoord), longPressTimeout)
   }

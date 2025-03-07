@@ -15,6 +15,10 @@ export function GameCell({id, children}: GameCellProps) {
     gridUi =  <GameButton cellId={id}/>
   }
 
+  if (children === 'F') {
+    gridUi =  <GameButton cellId={id} label={`F`}/>
+  }
+
   if (children === 'x') {
     gridUi = <Mine />
   }

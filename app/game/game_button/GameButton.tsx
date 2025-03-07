@@ -5,9 +5,10 @@ import './game_button.scss'
 
 interface GameButtonProps {
   cellId: string;
+  label?: string;
 }
 
-export function GameButton({cellId}: GameButtonProps) {
+export function GameButton({cellId, label}: GameButtonProps) {
   const [buttonState, setButtonState] = useState<ButtonStateType>(ButtonState.ready)
   const {handlePointerDown, handlePointerUp} = useGameFunctions()
 
@@ -38,6 +39,7 @@ export function GameButton({cellId}: GameButtonProps) {
     <button className={`GameButton ${buttonState}`}
       {...buttonHandlerProps}
     >
+      {label}
     </button>
   )
 }
