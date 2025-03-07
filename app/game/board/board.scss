@@ -38,5 +38,7 @@
     grid-template: var(--grid-col-style)/ var(--grid-row-style);
     min-height: 0;
     min-width: 0;
+    align-items: center;
+    justify-items: center;
   }
 }
