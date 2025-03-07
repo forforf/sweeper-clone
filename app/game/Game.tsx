@@ -45,14 +45,18 @@ export function Game ({gameGridSolution}: GameProps) {
   const pointerPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const longPressTimeout = 500; //milliseconds
 
-  const handlePointerDown = (cellId: string): void=> {
-    setPointerState(PointerState.pressed)
-    pointerPressTimer.current = setTimeout(() => {
+  const longPressTimeoutFn = (cellId: string) => {
+    return () => {
       setPointerState(PointerState.longPressed)
       const gameCellIdxs = cellIdToCoord(cellId)
       const solutionGameCellValue = getSolutionCellValue(gameCellIdxs)
       setGameCell(solutionGameCellValue, gameCellIdxs)
-    }, longPressTimeout)
+    }
+  }
+
+  const handlePointerDown = (cellId: string): void=> {
+    setPointerState(PointerState.pressed)
+    pointerPressTimer.current = setTimeout(longPressTimeoutFn(cellId), longPressTimeout)
   }
 
   const cancelPointerDown = (_: string): void => {
