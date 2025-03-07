@@ -19,7 +19,7 @@ function cloneGame(origGameCells: GameGridValues): GameGridValues {
   return origGameCells.map(row => [...row])
 }
 
-type GameCellIdx = [number, number]
+type GameCellCoord = [number, number]
 
 interface GameProps {
   gameGridSolution: GameGridValues
@@ -28,13 +28,13 @@ interface GameProps {
 export function Game ({gameGridSolution}: GameProps) {
   const initialGameCells = gameGridSolution.map(row => row.map(_ => HiddenCell))
   const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
-  const setGameCell = (value: GameCellValue, cellIdxs: GameCellIdx): void => {
+  const setGameCell = (value: GameCellValue, cellIdxs: GameCellCoord): void => {
     const newGameCells = cloneGame(gameCells)
     newGameCells[cellIdxs[0]][cellIdxs[1]] = value
     setGameCells(newGameCells)
   }
 
-  const getSolutionCellValue = (cellIdxs: GameCellIdx): GameCellValue => {
+  const getSolutionCellValue = (cellIdxs: GameCellCoord): GameCellValue => {
     return gameGridSolution[cellIdxs[0]][cellIdxs[1]]
   }
 
@@ -45,18 +45,18 @@ export function Game ({gameGridSolution}: GameProps) {
   const pointerPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const longPressTimeout = 500; //milliseconds
 
-  const longPressTimeoutFn = (cellId: string) => {
+  const longPressTimeoutFn = (gameCellCoord: GameCellCoord) => {
     return () => {
       setPointerState(PointerState.longPressed)
-      const gameCellIdxs = cellIdToCoord(cellId)
-      const solutionGameCellValue = getSolutionCellValue(gameCellIdxs)
-      setGameCell(solutionGameCellValue, gameCellIdxs)
+      const solutionGameCellValue = getSolutionCellValue(gameCellCoord)
+      setGameCell(solutionGameCellValue, gameCellCoord)
     }
   }
 
   const handlePointerDown = (cellId: string): void=> {
+    const gameCellCoord = cellIdToCoord(cellId)
     setPointerState(PointerState.pressed)
-    pointerPressTimer.current = setTimeout(longPressTimeoutFn(cellId), longPressTimeout)
+    pointerPressTimer.current = setTimeout(longPressTimeoutFn(gameCellCoord), longPressTimeout)
   }
 
   const cancelPointerDown = (_: string): void => {
