@@ -2,7 +2,13 @@ import React, {useRef, useState} from 'react'
 import {Board} from '@game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdToCoord} from './cellid_parser'
-import {FlaggedButton, HiddenCell, MinedCell, type GameCellValue, type GameGridValues} from '@game/GameGrid'
+import {
+  FlaggedHiddenCell,
+  type GameCellValue,
+  type GameGridValues,
+  HiddenCell,
+  MinedCell
+} from '@game/GameGrid'
 import './game.scss'
 
 const PointerState = {
@@ -43,9 +49,9 @@ export function Game ({gameGridSolution}: GameProps) {
   const toggleFlag = (gameCellCoord: GameCellCoord): GameCellValue => {
     const cell = getCurrentGameCellValue(gameCellCoord)
     if ( cell === HiddenCell) {
-      return FlaggedButton
+      return FlaggedHiddenCell
     }
-    if ( cell === FlaggedButton) {
+    if ( cell === FlaggedHiddenCell) {
       return HiddenCell
     }
     return cell
@@ -60,7 +66,7 @@ export function Game ({gameGridSolution}: GameProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [pointerState, setPointerState] = useState<PointerStateType>(PointerState.released)
   const pointerPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const longPressTimeout = 500; //milliseconds
+  const longPressTimeout = 500 //milliseconds
 
   const handleDeath = () => {
     setDeaths(deaths + 1)
