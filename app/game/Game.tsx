@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react'
 import {Board} from '@game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdToCoord} from './cellid_parser'
-import {FlaggedButton, HiddenCell, type GameCellValue, type GameGridValues} from '@game/GameGrid'
+import {FlaggedButton, HiddenCell, MinedCell, type GameCellValue, type GameGridValues} from '@game/GameGrid'
 import './game.scss'
 
 const PointerState = {
@@ -14,8 +14,6 @@ const PointerState = {
 type GameCellCoord = [number, number]
 
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
-
-
 
 // TODO: Consider creating a GameGrid class, that can handle cloning, setting and getting game cells
 function cloneGame(origGameCells: GameGridValues): GameGridValues {
@@ -29,6 +27,7 @@ interface GameProps {
 export function Game ({gameGridSolution}: GameProps) {
   const initialGameCells: GameGridValues = gameGridSolution.map(row => row.map(_ => HiddenCell))
   const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
+  const [deaths, setDeaths] = useState<number>(0)
 
   const getCurrentGameCellValue = (gameCellCoord: GameCellCoord): GameCellValue => {
     return gameCells[gameCellCoord[0]][gameCellCoord[1]]
@@ -63,10 +62,17 @@ export function Game ({gameGridSolution}: GameProps) {
   const pointerPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const longPressTimeout = 500; //milliseconds
 
+  const handleDeath = () => {
+    setDeaths(deaths + 1)
+  }
+
   const longPressTimeoutFn = (gameCellCoord: GameCellCoord) => {
     return () => {
       setPointerState(PointerState.longPressed)
       const solutionGameCellValue = getSolutionCellValue(gameCellCoord)
+      if (solutionGameCellValue === MinedCell) {
+        handleDeath()
+      }
       setGameCell(solutionGameCellValue, gameCellCoord)
     }
   }
@@ -91,12 +97,11 @@ export function Game ({gameGridSolution}: GameProps) {
 
   const gameFunctions: GameFunctions = {handlePointerDown, handlePointerUp}
 
-  type PointerStateType = typeof PointerState[keyof typeof PointerState]
-
   return (
     <GameFunctionsContext.Provider value={gameFunctions}>
       <div className="Game">
         <div>The Game</div>
+        <div>Deaths: {deaths}</div>
         <Board gridCells={gameCells}/>
       </div>
     </GameFunctionsContext.Provider>
