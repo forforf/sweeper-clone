@@ -3,11 +3,11 @@ import {Board} from '@game/board'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdToCoord} from './cellid_parser'
 import {
-  FlaggedHiddenCell,
-  type GameCellValue,
+  FlaggedHiddenCell, GameCellCoord,
+  type GameCellValue, GameGrid,
   type GameGridValues,
   HiddenCell,
-  MinedCell
+  MinedCell, SolutionGridValues
 } from '@game/GameGrid'
 import './game.scss'
 
@@ -17,21 +17,20 @@ const PointerState = {
   released: 'released'
 } as const
 
-type GameCellCoord = [number, number]
-
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
-// TODO: Consider creating a GameGrid class, that can handle cloning, setting and getting game cells
-function cloneGame(origGameCells: GameGridValues): GameGridValues {
-  return origGameCells.map(row => [...row])
-}
+// // TODO: Consider creating a GameGrid class, that can handle cloning, setting and getting game cells
+// function cloneGame(origGameCells: GameGridValues): GameGridValues {
+//   return origGameCells.map(row => [...row])
+// }
 
 interface GameProps {
-  gameGridSolution: GameGridValues
+  gameGridSolution: SolutionGridValues
 }
 
 export function Game ({gameGridSolution}: GameProps) {
-  const initialGameCells: GameGridValues = gameGridSolution.map(row => row.map(_ => HiddenCell))
+  const gameGrid = new GameGrid(gameGridSolution)
+  const initialGameCells = gameGrid.initializeGrid()
   const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
   const [deaths, setDeaths] = useState<number>(0)
 
@@ -40,7 +39,7 @@ export function Game ({gameGridSolution}: GameProps) {
   }
 
   const setGameCell = (value: GameCellValue, gameCellCoord: GameCellCoord): void => {
-    const newGameCells = cloneGame(gameCells)
+    const newGameCells = gameGrid.cloneGrid(gameCells)
     newGameCells[gameCellCoord[0]][gameCellCoord[1]] = value
     setGameCells(newGameCells)
   }
@@ -57,9 +56,9 @@ export function Game ({gameGridSolution}: GameProps) {
     return cell
   }
 
-  const getSolutionCellValue = (cellIdxs: GameCellCoord): GameCellValue => {
-    return gameGridSolution[cellIdxs[0]][cellIdxs[1]]
-  }
+  // const getSolutionCellValue = (cellIdxs: GameCellCoord): GameCellValue => {
+  //   return gameGridSolution[cellIdxs[0]][cellIdxs[1]]
+  // }
 
   // We will assume there is only a single mouse/pointer (that is multiple buttons can't be long pressed)
   // TODO: Either use pointerState or remove it (and adjust the comment above to match)
@@ -75,7 +74,7 @@ export function Game ({gameGridSolution}: GameProps) {
   const longPressTimeoutFn = (gameCellCoord: GameCellCoord) => {
     return () => {
       setPointerState(PointerState.longPressed)
-      const solutionGameCellValue = getSolutionCellValue(gameCellCoord)
+      const solutionGameCellValue = gameGrid.getSolutionCellValue(gameCellCoord)
       if (solutionGameCellValue === MinedCell) {
         handleDeath()
       }

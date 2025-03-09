@@ -12,7 +12,7 @@ export type GameCellValue = SolutionCellValue |
 export type SolutionGridValues = Array<Array<SolutionCellValue>>
 export type GameGridValues = Array<Array<GameCellValue>>
 
-type GameCellCoord = [number, number]
+export type GameCellCoord = [number, number]
 
 // // TODO: Move to it's own file
 // function intersection<T extends any[]>(arr1: T[], arr2: T[]): T[] {
@@ -32,6 +32,10 @@ export class GameGrid {
 
   getSolutionCellValue(cellCoord: GameCellCoord): GameCellValue {
     return this.solution[cellCoord[0]][cellCoord[1]]
+  }
+
+  cloneGrid(origGameCells: GameGridValues): GameGridValues {
+    return origGameCells.map(row => [...row])
   }
 }
 
