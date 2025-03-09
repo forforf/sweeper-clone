@@ -37,5 +37,14 @@ export class GameGrid {
   cloneGrid(origGameCells: GameGridValues): GameGridValues {
     return origGameCells.map(row => [...row])
   }
+
+  cellsToShow(currentCell: GameCellCoord): Array<GameCellCoord> {
+    let cells = [currentCell]
+    const currentCellSolution = this.getSolutionCellValue(currentCell)
+    if (currentCellSolution === null) {
+      // TODO: figure out all the coords of the cells to show
+    }
+    return cells
+  }
 }
 

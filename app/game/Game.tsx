@@ -31,17 +31,18 @@ interface GameProps {
 export function Game ({gameGridSolution}: GameProps) {
   const gameGrid = new GameGrid(gameGridSolution)
   const initialGameCells = gameGrid.initializeGrid()
-  const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
+  const [grid, setGrid] = useState<GameGridValues>(initialGameCells)
   const [deaths, setDeaths] = useState<number>(0)
 
   const getCurrentGameCellValue = (gameCellCoord: GameCellCoord): GameCellValue => {
-    return gameCells[gameCellCoord[0]][gameCellCoord[1]]
+    return grid[gameCellCoord[0]][gameCellCoord[1]]
   }
 
+  // This is primarily used for setting/removing the flag
   const setGameCell = (value: GameCellValue, gameCellCoord: GameCellCoord): void => {
-    const newGameCells = gameGrid.cloneGrid(gameCells)
+    const newGameCells = gameGrid.cloneGrid(grid)
     newGameCells[gameCellCoord[0]][gameCellCoord[1]] = value
-    setGameCells(newGameCells)
+    setGrid(newGameCells)
   }
 
 
@@ -74,11 +75,16 @@ export function Game ({gameGridSolution}: GameProps) {
   const longPressTimeoutFn = (gameCellCoord: GameCellCoord) => {
     return () => {
       setPointerState(PointerState.longPressed)
-      const solutionGameCellValue = gameGrid.getSolutionCellValue(gameCellCoord)
-      if (solutionGameCellValue === MinedCell) {
-        handleDeath()
-      }
-      setGameCell(solutionGameCellValue, gameCellCoord)
+      const gameCellsToShow = gameGrid.cellsToShow(gameCellCoord)
+      const newGrid = gameGrid.cloneGrid(grid)
+      gameCellsToShow.forEach((cellToShow) => {
+        const solutionGameCellValue = gameGrid.getSolutionCellValue(cellToShow)
+        if (solutionGameCellValue === MinedCell) {
+          handleDeath()
+        }
+        newGrid[cellToShow[0]][cellToShow[1]] = solutionGameCellValue
+      })
+      setGrid(newGrid)
     }
   }
 
@@ -86,6 +92,7 @@ export function Game ({gameGridSolution}: GameProps) {
     const gameCellCoord = cellIdToCoord(cellId)
     // TODO: This will toggle the button on press, but do we need to worry about canceling it?
     //  Since long press clears the button it should be ok?
+    // TODO: Should there be a more generic setGameCell?
     setGameCell(toggleFlag(gameCellCoord), gameCellCoord)
     setPointerState(PointerState.pressed)
     pointerPressTimer.current = setTimeout(longPressTimeoutFn(gameCellCoord), longPressTimeout)
@@ -107,7 +114,7 @@ export function Game ({gameGridSolution}: GameProps) {
       <div className="Game">
         <div>The Game</div>
         <div>Deaths: {deaths}</div>
-        <Board gridCells={gameCells}/>
+        <Board gridCells={grid}/>
       </div>
     </GameFunctionsContext.Provider>
   )
