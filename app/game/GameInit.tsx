@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
 import {Game} from './Game'
-import type {GameGridValues} from './GameGrid'
+import type {SolutionGridValues} from './logic/GameGrid'
 
 interface GameInitProps {
-  gameGridSolution: GameGridValues
+  gameGridSolution: SolutionGridValues
 }
 
 export function GameInit ({gameGridSolution}: GameInitProps) {

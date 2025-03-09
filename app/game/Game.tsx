@@ -8,8 +8,10 @@ import {
   type GameGridValues,
   HiddenCell,
   MinedCell, SolutionGridValues
-} from '@game/GameGrid'
+} from '@game/logic/GameGrid'
 import './game.scss'
+import {SolutionGrid} from '@game/logic/SolutionGrid'
+import {CellRevealer} from '@game/logic/CellRevealer'
 
 const PointerState = {
   pressed: 'pressed',
@@ -19,17 +21,14 @@ const PointerState = {
 
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
-// // TODO: Consider creating a GameGrid class, that can handle cloning, setting and getting game cells
-// function cloneGame(origGameCells: GameGridValues): GameGridValues {
-//   return origGameCells.map(row => [...row])
-// }
-
 interface GameProps {
   gameGridSolution: SolutionGridValues
 }
 
 export function Game ({gameGridSolution}: GameProps) {
-  const gameGrid = new GameGrid(gameGridSolution)
+  const solutionGrid = new SolutionGrid(gameGridSolution)
+  const cellRevealer = new CellRevealer(solutionGrid)
+  const gameGrid = new GameGrid(solutionGrid, cellRevealer)
   const initialGameCells = gameGrid.initializeGrid()
   const [grid, setGrid] = useState<GameGridValues>(initialGameCells)
   const [deaths, setDeaths] = useState<number>(0)
@@ -56,10 +55,6 @@ export function Game ({gameGridSolution}: GameProps) {
     }
     return cell
   }
-
-  // const getSolutionCellValue = (cellIdxs: GameCellCoord): GameCellValue => {
-  //   return gameGridSolution[cellIdxs[0]][cellIdxs[1]]
-  // }
 
   // We will assume there is only a single mouse/pointer (that is multiple buttons can't be long pressed)
   // TODO: Either use pointerState or remove it (and adjust the comment above to match)

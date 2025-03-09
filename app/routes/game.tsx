@@ -1,7 +1,7 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {GameInit} from '@app/game'
 import {createServerFn} from '@tanstack/start'
-import {type GameGridValues} from '@app/game/GameGrid'
+import {type GameGridValues} from '@game/logic/GameGrid'
 
 function initGame(): GameGridValues {
   return [
