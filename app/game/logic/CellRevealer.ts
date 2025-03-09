@@ -14,6 +14,7 @@ function pushUnique(cells: Array<GameCellCoord>, cell: GameCellCoord) {
     cells.push(cell);
   }
 }
+
 export class CellRevealer {
   solutionGrid: SolutionGrid
   maxRowIdx: number
@@ -44,49 +45,39 @@ export class CellRevealer {
     }
   }
 
-  // TODO: This appears to be working, but I'm sure it can be optimized
   cellsToShow(currentCell: GameCellCoord): Array<GameCellCoord> {
-    const currentCellSolution = this.solutionGrid.getCellValue(currentCell)
-    const showList: Array<GameCellCoord> = currentCellSolution === null ? [] : [currentCell]
-    if (currentCellSolution === null) {
-      const checkedEmpties: Array<GameCellCoord> = []
-      console.log('checked empties, initial', checkedEmpties)
-      const uncheckedEmpties: Array<GameCellCoord> = [currentCell]
+    const currentCellValue = this.solutionGrid.getCellValue(currentCell)
 
-      let safetyValveCount = 0
-      while (uncheckedEmpties.length > 0) {
-        console.log('while loop uncheckedEmpties', uncheckedEmpties.length, uncheckedEmpties.map(cell => cell.join('-')))
-        console.log('checked empties', checkedEmpties.length, checkedEmpties.map(cell => cell.join('-')))
-        safetyValveCount += 1
-        if (safetyValveCount > (this.maxRowIdx+1)*(this.maxColIdx)) {
-          console.log('Something went wrong checking empty cells')
-          break;
-        }
-
-        // checking the empty cell at the top of the list
-        const checkCell= uncheckedEmpties.pop()!
-        console.log('after pop uncheckedEmpties size', uncheckedEmpties.length)
-        console.log('checking', checkCell.join('-'))
-        pushUnique(showList, checkCell)
-
-        this.eachNeighborCoord(checkCell, (neighborCoord) => {
-          if (this.cellIsEmpty(neighborCoord) && !includesGameCellCoord(checkedEmpties, neighborCoord)) {
-            console.log('found empty cell', neighborCoord)
-            console.log('and is not in checkedEmpties')
-            pushUnique(uncheckedEmpties, neighborCoord)
-          }
-          pushUnique(showList, neighborCoord)
-        })
-
-        console.log('after checking neigbhors uncheckedEmpties size', uncheckedEmpties.length)
-        console.log(uncheckedEmpties.map(cell => cell.join('-')))
-        console.log('checked empty', checkCell.join('-'))
-        pushUnique(checkedEmpties, checkCell)
-        console.log('checked empties', checkedEmpties.map(cell => cell.join('-')))
-      }
-      // TODO: figure out all the coords of the cells to show
+    if (currentCellValue !== null) {
+      return [currentCell]
     }
-    console.log('final show list', showList.map(cell => cell.join('-')))
+
+    const showList: Array<GameCellCoord> = []
+    const checkedEmpties: Array<GameCellCoord> = []
+    const uncheckedEmpties: Array<GameCellCoord> = [currentCell]
+
+    const isNewEmptyCell = (cell: GameCellCoord): boolean => {
+      return !includesGameCellCoord(checkedEmpties, cell)
+    }
+
+    // set maximum iterations as a safety to prevent infinite loops
+    const maxIterations = (this.maxRowIdx+1) * (this.maxColIdx+1)
+    for (let i = 0; i<=(maxIterations); i++) {
+      if (uncheckedEmpties.length === 0) { break }
+      const emptyCell= uncheckedEmpties.pop()! // get next empty cell
+
+      pushUnique(showList, emptyCell) // add it to the list of cells to reveal
+
+      this.eachNeighborCoord(emptyCell, (neighborCoord) => {
+        if (this.cellIsEmpty(neighborCoord) && isNewEmptyCell(neighborCoord)) {
+          pushUnique(uncheckedEmpties, neighborCoord)
+        }
+        pushUnique(showList, neighborCoord) // add all neighbors to be revealed
+      })
+
+      pushUnique(checkedEmpties, emptyCell) // this empty has
+    }
+
     return showList
   }
 }
