@@ -1,4 +1,4 @@
-import {GameCellCoord} from '@game/logic/GameGrid'
+import {GameCellCoord} from '@game/types'
 import {SolutionGrid} from '@game/logic/SolutionGrid'
 
 function gameCellCoordEqual(cell1: GameCellCoord, cell2: GameCellCoord): boolean {

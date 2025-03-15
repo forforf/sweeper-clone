@@ -1,14 +1,11 @@
 import React, {useRef, useState} from 'react'
+import {FlaggedHiddenCell, HiddenCell, MinedCell} from '@game/consts'
+import {GameCellCoord, GameCellValue, GameGridValues, SolutionGridValues} from '@game/types'
 import {Board} from '@game/board'
+import {GameGrid} from '@game/logic/GameGrid'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdToCoord} from './cellid_parser'
-import {
-  FlaggedHiddenCell, GameCellCoord,
-  type GameCellValue, GameGrid,
-  type GameGridValues,
-  HiddenCell,
-  MinedCell, SolutionGridValues
-} from '@game/logic/GameGrid'
+
 import './game.scss'
 import {SolutionGrid} from '@game/logic/SolutionGrid'
 import {CellRevealer} from '@game/logic/CellRevealer'

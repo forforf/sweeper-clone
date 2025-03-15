@@ -1,4 +1,4 @@
-import {GameCellCoord, GameCellValue, SolutionGridValues} from './GameGrid'
+import type {GameCellCoord, GameCellValue, SolutionGridValues} from '@game/types'
 
 export class SolutionGrid {
   solution: SolutionGridValues

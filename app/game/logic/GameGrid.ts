@@ -1,21 +1,7 @@
-import { CellRevealer } from './CellRevealer'
+import {CellRevealer} from './CellRevealer'
 import {SolutionGrid} from '@game/logic/SolutionGrid'
-export const HiddenCell = '?'
-export const FlaggedHiddenCell = '𐘺' // other options: ᛩ ᚹ ᚦ ᚧ ᚨ 𐘹 𐘺 𐘷 𐘌 𐘍 𐘄 𐘅 𐘆 𐘇 𐀣 𓌏 𐂕 ᛭
-export const MinedCell = 'x'
-export const EmptyCell = null
-export type SolutionCellValue = typeof EmptyCell |
-  typeof MinedCell |
-  '1' | '2' | '3' |'4' | '5' | '6' | '7' | '8'
-export type GameCellValue = SolutionCellValue |
-  typeof HiddenCell |
-  typeof FlaggedHiddenCell
-
-export type SolutionGridValues = Array<Array<SolutionCellValue>>
-export type GameGridValues = Array<Array<GameCellValue>>
-
-
-export type GameCellCoord = [number, number]
+import {HiddenCell} from '@game/consts'
+import type {GameCellCoord, GameCellValue, GameGridValues} from '@game/types'
 
 export class GameGrid {
   solutionGrid: SolutionGrid

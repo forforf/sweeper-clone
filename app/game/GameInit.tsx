@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {Game} from './Game'
-import type {SolutionGridValues} from './logic/GameGrid'
+import type {SolutionGridValues} from '@game/types'
 
 interface GameInitProps {
   gameGridSolution: SolutionGridValues

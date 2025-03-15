@@ -1,13 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import {
-  GameGrid,
-  HiddenCell,
-  MinedCell,
-  EmptyCell,
-  SolutionGridValues,
-  FlaggedHiddenCell,
-  GameGridValues
-} from './GameGrid'
+import {GameGrid} from './GameGrid'
+import {HiddenCell, MinedCell, EmptyCell, FlaggedHiddenCell} from '@game/consts'
+import type {GameGridValues, SolutionGridValues} from '@game/types'
+import {CellRevealer} from '@game/logic/CellRevealer'
+import {SolutionGrid} from '@game/logic/SolutionGrid'
 
 describe('GameGrid', () => {
   // Define a sample solution grid with different types of cell values.
@@ -17,8 +13,10 @@ describe('GameGrid', () => {
     [MinedCell, EmptyCell, '5']
   ]
 
+  const solutionGrid = new SolutionGrid(solution)
+  const cellRevealer = new CellRevealer(solutionGrid)
   // Instantiate GameGrid with the solution grid.
-  const grid = new GameGrid(solution)
+  const grid = new GameGrid(solutionGrid, cellRevealer)
 
   describe('initialize', () => {
     it('initializes the grid with all cells set to HiddenCell', () => {

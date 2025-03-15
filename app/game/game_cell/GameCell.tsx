@@ -1,7 +1,8 @@
 import React from 'react'
 import {GameButton} from '@game/game_button'
 import {Mine} from '@game/mine'
-import {FlaggedHiddenCell, HiddenCell, MinedCell, type GameCellValue, } from '@game/logic/GameGrid'
+import {FlaggedHiddenCell, HiddenCell, MinedCell} from '@game/consts'
+import type {GameCellValue} from '@game/types'
 import './game_cell.scss'
 
 interface GameCellProps {
