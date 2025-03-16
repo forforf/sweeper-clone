@@ -14,12 +14,12 @@ export class CellRevealer {
     this.maxColIdx = this.solutionGrid.solution[0].length - 1
   }
 
-  cellIsEmpty(cellCoord: GameCellCoord): boolean {
+  private cellIsEmpty(cellCoord: GameCellCoord): boolean {
     return this.solutionGrid.getCellValue(cellCoord) === null
   }
 
   // Returns neighbors (not including self)
-  eachNeighborCoord(cellCoord: GameCellCoord, callback: (cell: GameCellCoord) => void) {
+  private eachNeighborCoord(cellCoord: GameCellCoord, callback: (cell: GameCellCoord) => void) {
     for (let i = -1; i<= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (i === 0 && j === 0) { continue } // skip self
@@ -33,7 +33,7 @@ export class CellRevealer {
     }
   }
 
-  cellsToShow(currentCell: GameCellCoord): Array<GameCellCoord> {
+  public cellsToShow(currentCell: GameCellCoord): Array<GameCellCoord> {
     const currentCellValue = this.solutionGrid.getCellValue(currentCell)
 
     if (currentCellValue !== null) {
