@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {GameGrid} from './GameGrid'
 import {HiddenCell, MinedCell, EmptyCell, FlaggedHiddenCell} from '@game/consts'
 import type {GameGridValues, SolutionGridValues} from '@game/types'
-import {CellRevealer} from '@game/logic/CellRevealer'
+import {CellRevealer} from '@game/logic/cell_revealer'
 import {SolutionGrid} from '@game/logic/SolutionGrid'
 
 describe('GameGrid', () => {

@@ -1,4 +1,4 @@
-import {CellRevealer} from './CellRevealer'
+import {CellRevealer} from './cell_revealer'
 import {SolutionGrid} from '@game/logic/SolutionGrid'
 import {HiddenCell} from '@game/consts'
 import type {GameCellCoord, GameCellValue, GameGridValues} from '@game/types'

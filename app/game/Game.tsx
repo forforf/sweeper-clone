@@ -8,7 +8,7 @@ import {cellIdToCoord} from './cellid_parser'
 
 import './game.scss'
 import {SolutionGrid} from '@game/logic/SolutionGrid'
-import {CellRevealer} from '@game/logic/CellRevealer'
+import {CellRevealer} from '@game/logic/cell_revealer'
 
 const PointerState = {
   pressed: 'pressed',
