@@ -15,7 +15,7 @@ describe('GameGrid', () => {
     [MinedCell, EmptyCell, '5']
   ]
 
-  const solutionGrid = new SolutionGrid(solution)
+  const solutionGrid = SolutionGrid.make(solution)
   const cellRevealer = CellRevealer.make(solutionGrid, EmptyRegionExplorer.make)
   const grid = new GameGrid(solutionGrid, cellRevealer)
 

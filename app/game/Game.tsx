@@ -24,7 +24,7 @@ interface GameProps {
 }
 
 export function Game ({gameGridSolution}: GameProps) {
-  const solutionGrid = new SolutionGrid(gameGridSolution)
+  const solutionGrid = SolutionGrid.make(gameGridSolution)
   const cellRevealer = CellRevealer.make(solutionGrid, EmptyRegionExplorer.make)
   const gameGrid = new GameGrid(solutionGrid, cellRevealer)
   const initialGameCells = gameGrid.initializeGrid()

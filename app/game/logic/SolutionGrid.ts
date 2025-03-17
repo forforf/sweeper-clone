@@ -1,6 +1,9 @@
 import type {GameCellCoord, GameCellValue, SolutionGridValues} from '@game/types'
 
 export class SolutionGrid {
+  static make(solution: SolutionGridValues): SolutionGrid {
+    return new SolutionGrid(solution)
+  }
   solution: SolutionGridValues
 
   constructor(solution: SolutionGridValues) {
