@@ -1,8 +1,14 @@
 import React, {useRef, useState} from 'react'
+import {FlaggedHiddenCell, HiddenCell, MinedCell} from '@game/consts'
+import {GameCellCoord, GameCellValue, GameGridValues, SolutionGridValues} from '@game/types'
 import {Board} from '@game/board'
+import {GameGrid} from '@game/logic/GameGrid'
+import {SolutionGrid} from '@game/logic/SolutionGrid'
+import {CellRevealer} from '@game/logic/cell_revealer'
+import {EmptyRegionExplorer} from '@game/logic/cell_revealer/EmptyRegionExplorer'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdToCoord} from './cellid_parser'
-import type {GameCellValue, GameGridValues} from '@game/GameGrid'
+
 import './game.scss'
 
 const PointerState = {
@@ -13,29 +19,39 @@ const PointerState = {
 
 export type PointerStateType = typeof PointerState[keyof typeof PointerState]
 
-const HiddenCell: GameCellValue = '?'
-
-function cloneGame(origGameCells: GameGridValues): GameGridValues {
-  return origGameCells.map(row => [...row])
-}
-
-type GameCellIdx = [number, number]
-
 interface GameProps {
-  gameGridSolution: GameGridValues
+  gameGridSolution: SolutionGridValues
 }
 
 export function Game ({gameGridSolution}: GameProps) {
-  const initialGameCells = gameGridSolution.map(row => row.map(_ => HiddenCell))
-  const [gameCells, setGameCells] = useState<GameGridValues>(initialGameCells)
-  const setGameCell = (value: GameCellValue, cellIdxs: GameCellIdx): void => {
-    const newGameCells = cloneGame(gameCells)
-    newGameCells[cellIdxs[0]][cellIdxs[1]] = value
-    setGameCells(newGameCells)
+  const solutionGrid = SolutionGrid.make(gameGridSolution)
+  const cellRevealer = CellRevealer.make(solutionGrid, EmptyRegionExplorer.make)
+  const gameGrid = new GameGrid(solutionGrid, cellRevealer)
+  const initialGameCells = gameGrid.initializeGrid()
+  const [grid, setGrid] = useState<GameGridValues>(initialGameCells)
+  const [deaths, setDeaths] = useState<number>(0)
+
+  const getCurrentGameCellValue = (gameCellCoord: GameCellCoord): GameCellValue => {
+    return grid[gameCellCoord[0]][gameCellCoord[1]]
   }
 
-  const getSolutionCellValue = (cellIdxs: GameCellIdx): GameCellValue => {
-    return gameGridSolution[cellIdxs[0]][cellIdxs[1]]
+  // This is primarily used for setting/removing the flag
+  const setGameCell = (value: GameCellValue, gameCellCoord: GameCellCoord): void => {
+    const newGameCells = gameGrid.cloneGrid(grid)
+    newGameCells[gameCellCoord[0]][gameCellCoord[1]] = value
+    setGrid(newGameCells)
+  }
+
+
+  const toggleFlag = (gameCellCoord: GameCellCoord): GameCellValue => {
+    const cell = getCurrentGameCellValue(gameCellCoord)
+    if ( cell === HiddenCell) {
+      return FlaggedHiddenCell
+    }
+    if ( cell === FlaggedHiddenCell) {
+      return HiddenCell
+    }
+    return cell
   }
 
   // We will assume there is only a single mouse/pointer (that is multiple buttons can't be long pressed)
@@ -43,16 +59,36 @@ export function Game ({gameGridSolution}: GameProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [pointerState, setPointerState] = useState<PointerStateType>(PointerState.released)
   const pointerPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const longPressTimeout = 500; //milliseconds
+  const longPressTimeout = 500 //milliseconds
+
+  const handleDeath = () => {
+    setDeaths(deaths + 1)
+  }
+
+  const longPressTimeoutFn = (gameCellCoord: GameCellCoord) => {
+    return () => {
+      setPointerState(PointerState.longPressed)
+      const gameCellsToShow = gameGrid.cellsToShow(gameCellCoord)
+      const newGrid = gameGrid.cloneGrid(grid)
+      gameCellsToShow.forEach((cellToShow) => {
+        const solutionGameCellValue = gameGrid.getSolutionCellValue(cellToShow)
+        if (solutionGameCellValue === MinedCell) {
+          handleDeath()
+        }
+        newGrid[cellToShow[0]][cellToShow[1]] = solutionGameCellValue
+      })
+      setGrid(newGrid)
+    }
+  }
 
   const handlePointerDown = (cellId: string): void=> {
+    const gameCellCoord = cellIdToCoord(cellId)
+    // TODO: This will toggle the button on press, but do we need to worry about canceling it?
+    //  Since long press clears the button it should be ok?
+    // TODO: Should there be a more generic setGameCell?
+    setGameCell(toggleFlag(gameCellCoord), gameCellCoord)
     setPointerState(PointerState.pressed)
-    pointerPressTimer.current = setTimeout(() => {
-      setPointerState(PointerState.longPressed)
-      const gameCellIdxs = cellIdToCoord(cellId)
-      const solutionGameCellValue = getSolutionCellValue(gameCellIdxs)
-      setGameCell(solutionGameCellValue, gameCellIdxs)
-    }, longPressTimeout)
+    pointerPressTimer.current = setTimeout(longPressTimeoutFn(gameCellCoord), longPressTimeout)
   }
 
   const cancelPointerDown = (_: string): void => {
@@ -66,13 +102,12 @@ export function Game ({gameGridSolution}: GameProps) {
 
   const gameFunctions: GameFunctions = {handlePointerDown, handlePointerUp}
 
-  type PointerStateType = typeof PointerState[keyof typeof PointerState]
-
   return (
     <GameFunctionsContext.Provider value={gameFunctions}>
       <div className="Game">
         <div>The Game</div>
-        <Board gridCells={gameCells}/>
+        <div>Deaths: {deaths}</div>
+        <Board gridCells={grid}/>
       </div>
     </GameFunctionsContext.Provider>
   )

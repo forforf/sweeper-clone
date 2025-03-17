@@ -1,7 +1,8 @@
 import React from 'react'
 import {GameButton} from '@game/game_button'
 import {Mine} from '@game/mine'
-import type {GameCellValue} from '@game/GameGrid'
+import {FlaggedHiddenCell, HiddenCell, MinedCell} from '@game/consts'
+import type {GameCellValue} from '@game/types'
 import './game_cell.scss'
 
 interface GameCellProps {
@@ -11,11 +12,15 @@ interface GameCellProps {
 
 export function GameCell({id, children}: GameCellProps) {
   let gridUi: React.ReactNode = children
-  if (children === '?') {
+  if (children === HiddenCell) {
     gridUi =  <GameButton cellId={id}/>
   }
 
-  if (children === 'x') {
+  if (children === FlaggedHiddenCell) {
+    gridUi =  <GameButton cellId={id} label={FlaggedHiddenCell}/>
+  }
+
+  if (children === MinedCell) {
     gridUi = <Mine />
   }
 
