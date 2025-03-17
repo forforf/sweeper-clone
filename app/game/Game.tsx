@@ -3,12 +3,13 @@ import {FlaggedHiddenCell, HiddenCell, MinedCell} from '@game/consts'
 import {GameCellCoord, GameCellValue, GameGridValues, SolutionGridValues} from '@game/types'
 import {Board} from '@game/board'
 import {GameGrid} from '@game/logic/GameGrid'
+import {SolutionGrid} from '@game/logic/SolutionGrid'
+import {CellRevealer} from '@game/logic/cell_revealer'
+import {EmptyRegionExplorer} from '@game/logic/cell_revealer/EmptyRegionExplorer'
 import {GameFunctions, GameFunctionsContext} from './GameContext'
 import {cellIdToCoord} from './cellid_parser'
 
 import './game.scss'
-import {SolutionGrid} from '@game/logic/SolutionGrid'
-import {CellRevealer} from '@game/logic/cell_revealer'
 
 const PointerState = {
   pressed: 'pressed',
@@ -24,7 +25,7 @@ interface GameProps {
 
 export function Game ({gameGridSolution}: GameProps) {
   const solutionGrid = new SolutionGrid(gameGridSolution)
-  const cellRevealer = new CellRevealer(solutionGrid)
+  const cellRevealer = CellRevealer.make(solutionGrid, EmptyRegionExplorer.make)
   const gameGrid = new GameGrid(solutionGrid, cellRevealer)
   const initialGameCells = gameGrid.initializeGrid()
   const [grid, setGrid] = useState<GameGridValues>(initialGameCells)

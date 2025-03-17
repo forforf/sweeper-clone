@@ -7,3 +7,9 @@ function gameCellCoordEqual(cell1: GameCellCoord, cell2: GameCellCoord): boolean
 export function includesGameCellCoord(cells: Array<GameCellCoord>, targetCell: GameCellCoord): boolean {
   return cells.some(cell => gameCellCoordEqual(cell, targetCell) )
 }
+
+export function pushUnique(cells: Array<GameCellCoord>, cell: GameCellCoord) {
+  if (!includesGameCellCoord(cells, cell)) {
+    cells.push(cell);
+  }
+}
