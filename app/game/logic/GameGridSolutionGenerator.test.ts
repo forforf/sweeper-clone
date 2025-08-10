@@ -65,19 +65,17 @@ describe('GameGridSolutionGenerator', () => {
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         const cell = game.board[i][j];
-        if (cell.isOpen) {
-          let expectedCount = 0;
-          for (const [di, dj] of directions) {
-            const ni = i + di;
-            const nj = j + dj;
-            if (ni >= 0 && ni < rows && nj >= 0 && nj < cols) {
-              if (game.board[ni][nj].isMine) {
-                expectedCount++;
-              }
+        let expectedCount = 0;
+        for (const [di, dj] of directions) {
+          const ni = i + di;
+          const nj = j + dj;
+          if (ni >= 0 && ni < rows && nj >= 0 && nj < cols) {
+            if (game.board[ni][nj].isMine) {
+              expectedCount++;
             }
           }
-          expect(cell.number).toBe(expectedCount);
         }
+        expect(cell.number).toBe(expectedCount);
       }
     }
   });

@@ -81,7 +81,6 @@ export class GameGridSolutionGenerator {
           // Do not place mines around initial cell
           if (i >= this.initialCell[0]-1 && i <= this.initialCell[0]+1
             && j >= this.initialCell[1]-1 && j <= this.initialCell[1]+1) {
-            console.log('Dont put mine at', i,j, this.initialCell);
             cell.isMine = false;
           } else {
             cell.isMine = Math.random() < 0.5; // 50% chance of mine
@@ -102,19 +101,17 @@ export class GameGridSolutionGenerator {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         const cell = this.board[i][j];
-        if (cell.isOpen) {
-          let count = 0;
-          for (const [di, dj] of directions) {
-            const ni = i + di;
-            const nj = j + dj;
-            if (ni >= 0 && ni < this.rows && nj >= 0 && nj < this.cols) {
-              if (this.board[ni][nj].isMine) {
-                count++;
-              }
+        let count = 0;
+        for (const [di, dj] of directions) {
+          const ni = i + di;
+          const nj = j + dj;
+          if (ni >= 0 && ni < this.rows && nj >= 0 && nj < this.cols) {
+            if (this.board[ni][nj].isMine) {
+              count++;
             }
           }
-          cell.number = count;
         }
+        cell.number = count;
       }
     }
   }
