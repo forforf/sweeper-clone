@@ -5,7 +5,7 @@ import type {GameCellCoord, SolutionGridValues} from '@game/types'
 import {GameGridSolutionGenerator} from '@game/logic/GameGridSolutionGenerator'
 
 function initGame(startCell: GameCellCoord | null): SolutionGridValues {
-  const gameRows = 13
+  const gameRows = 16
   const gameCols = 9
   if (startCell == null) {
     startCell = [0, 0]
@@ -19,10 +19,12 @@ function initGame(startCell: GameCellCoord | null): SolutionGridValues {
 // getGame will return a solvable game based on the first cell clicked
 // gameId to set the gameId the gameId maps to a specific solution, so a brand new game should have a new gameId
 // but an ongoing game that was restarted would use the existing gameId
+const changeToFakeGame = initGame(null)
+
 const getGame = createServerFn({
   method: 'GET',
 }).handler(() => {
-  return initGame(null)
+  return changeToFakeGame
 })
 
 export const Route = createFileRoute('/game')({
@@ -31,7 +33,9 @@ export const Route = createFileRoute('/game')({
 })
 
 function RouteComponent() {
-  const gameGridSolution = Route.useLoaderData()
+  console.log('game route')
+  const gameGridSolution = Route.useLoaderData() ?? changeToFakeGame
+  console.log(gameGridSolution)
   return (
     <GameInit gameGridSolution={gameGridSolution}/>
   )
