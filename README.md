@@ -2,6 +2,14 @@
 I got annoyed with the UI of my minesweeper app, so I'm seeing if I can make a clone that works for me.
 Also, it's an opportunity to try out `@tanstack`'s SSR
 
+## Current Status
+Game is basic, but playable. Click on a tile to mark it. Long click to uncover.
+The current generator can lead to resorting to guessing in some cases, unfortunately.
+
+### Next Steps
+* Have the game generate from the first click. Right now the
+only "safe" click is 0,0.
+
 ## Project Structure
 Everything is vanilla @tanstack except for:
 * app/game
